@@ -125,6 +125,40 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+/* Boutons filtres */
+.filters{
+	display: flex;
+	justify-content: center;
+	gap: 9px;
+	margin-bottom: 30px;
+}
+
+.filters button{
+	background: none;
+	border: 1px solid #1D6154;
+	border-radius: 25px;
+	padding: 9px 19px;
+    font-family: 'Syne';
+	font-size: 18px;
+	color:#1D6154;
+    cursor: pointer;
+	transition: 0.2s ease;
+}
+
+.filters button:hover{
+	background-color: #1D6154;
+	color: white;
+}
+
+.filters button .active{
+	background-color: #1D6154;
+	color: white;
+	transform: scale(0.95);
+}
+
+/* - FIN - Boutons filtres */
+
 .gallery {
 	width: 100%;
 	display: grid;
