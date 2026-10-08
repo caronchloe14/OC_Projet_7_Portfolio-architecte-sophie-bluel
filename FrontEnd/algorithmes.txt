@@ -48,7 +48,7 @@ Ce fichier contient les algorithmes et le raisonnement utilisés pour construire
         * vérifier si une catégorie ayant le même id existe déjà dans "categories".
         * si la catégorie n'existe pas :
 
-    * ajouter la catégorie dans "categories".
+            * ajouter la catégorie dans "categories".
     * À la fin, le tableau "categories" contient chaque catégorie une seule fois.
 ]
 
@@ -63,6 +63,7 @@ Ce fichier contient les algorithmes et le raisonnement utilisés pour construire
     * Donner au bouton le texte "Tous".
     * Ajouter le bouton à la section des filtres.
     * Ajouter un événement "click" au bouton.
+        * A retenir : la fonction qu'on veut activer au clic doit etre : () => {dans les acollades}
 ]
 
 [5. CRÉER LES BOUTONS DES CATÉGORIES
@@ -78,7 +79,12 @@ Ce fichier contient les algorithmes et le raisonnement utilisés pour construire
     * donner au bouton le type "button".
     * donner au bouton le nom de la catégorie.
     * ajouter le bouton à la section des filtres.
-    * ajouter un événement "click" au bouton.
+    * ajouter un événement "click" au bouton : 
+        Fonction "travauxFiltres" qui compare :
+        *ID de la catégorie du travail (datatravaux.category.id)
+            =
+        ID de la catégorie sélectionnée (categorie.id)
+    * rappeler afficherTravaux avec (travauxFiltres)
 ]
 
 [6. AFFICHER TOUS LES TRAVAUX
@@ -222,4 +228,56 @@ Ce fichier contient les algorithmes et le raisonnement utilisés pour construire
 
     fonction :
     Bloc de code réutilisable auquel on peut transmettre des données.
+
+    Paramètre et arguments :
+    
+        Paramètre :
+
+        * Variable définie lors de la création d'une fonction.
+        * Il représente une valeur que la fonction attend de recevoir.
+
+        Exemple :
+
+        ```
+        function afficherTravaux(travaux) {
+        }
+        ```
+
+        Ici, "travaux" est le paramètre.
+
+        Argument :
+
+        * Valeur donnée à une fonction lorsqu'on l'appelle.
+        * Cette valeur est reçue par le paramètre.
+
+        Exemple :
+
+        ```
+        afficherTravaux(dataTravaux);
+        ```
+
+        Ici, "dataTravaux" est l'argument.
+
+        À retenir :
+
+        ```
+        function afficherTravaux(travaux)
+                                    ↑
+                                paramètre
+
+        afficherTravaux(dataTravaux)
+                             ↑
+                            argument
+        ```
+
+        Le paramètre est la "place réservée".
+        L'argument est la valeur qu'on met dans cette place.
+
+        Ainsi :
+
+        ```
+        travaux = dataTravaux
+        ```
+
+        à l'intérieur de la fonction.
 ]

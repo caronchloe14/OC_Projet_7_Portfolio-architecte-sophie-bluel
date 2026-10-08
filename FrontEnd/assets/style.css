@@ -151,10 +151,9 @@ li:hover {
 	color: white;
 }
 
-.filters button .active{
+.filters button.active{
 	background-color: #1D6154;
 	color: white;
-	transform: scale(0.95);
 }
 
 /* - FIN - Boutons filtres */
