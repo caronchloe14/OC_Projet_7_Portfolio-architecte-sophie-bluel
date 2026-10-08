@@ -1,11 +1,11 @@
-ALGORITHMES - ETAPES 1 -> Galerie de travaux + tri par catégories
-=================================
+# ALGORITHMES - ETAPES 1 -> Galerie de travaux + tri par catégories
 
 Ce fichier contient les algorithmes et le raisonnement utilisés pour construire les fonctionnalités du projet.
 
 [1. RÉCUPÉRER LES TRAVAUX DEPUIS L'API
     Objectif :
     Récupérer les travaux présents dans l'API afin de pouvoir les afficher sur le site.
+
     Algorithme :
     * Déclarer une variable globale "dataTravaux".
     * Faire une requête GET vers l'API "/works".
@@ -35,56 +35,66 @@ Ce fichier contient les algorithmes et le raisonnement utilisés pour construire
         * ajouter la figure à la galerie.
 ]
 
-[3. RÉCUPÉRER LES CATÉGORIES
+[3. RÉCUPÉRER LES CATÉGORIES DEPUIS L'API
     Objectif :
-    Créer un tableau contenant uniquement les catégories différentes présentes dans les travaux.
+    Récupérer les catégories disponibles afin de créer les boutons de filtrage.
+
     Algorithme :
 
-    * Créer un tableau vide appelé "categories".
-    * Parcourir "dataTravaux".
-    * Pour chaque travail :
-
-        * récupérer sa catégorie.
-        * vérifier si une catégorie ayant le même id existe déjà dans "categories".
-        * si la catégorie n'existe pas :
-
-            * ajouter la catégorie dans "categories".
-    * À la fin, le tableau "categories" contient chaque catégorie une seule fois.
+    * Faire une requête GET vers l'API "/categories".
+    * Attendre la réponse de l'API.
+    * Transformer la réponse en données JavaScript.
+    * Stocker les données reçues dans "categories".
+    * Le tableau "categories" contient directement les catégories fournies par l'API.
+    * Chaque élément du tableau contient notamment :
+        * un "id".
+        * un "name".
 ]
 
 [4. CRÉER LE BOUTON "TOUS"
     Objectif :
     Créer un bouton permettant d'afficher tous les travaux.
+    
     Algorithme :
-
     * Récupérer la section des filtres dans le HTML.
     * Créer un bouton.
-    * Donner au bouton le type "button".
-    * Donner au bouton le texte "Tous".
-    * Ajouter le bouton à la section des filtres.
-    * Ajouter un événement "click" au bouton.
-        * A retenir : la fonction qu'on veut activer au clic doit etre : () => {dans les acollades}
+        * Donner au bouton le type "button".
+        * Donner au bouton le texte "Tous".
+        * Ajouter le bouton à la section des filtres.
+        * Ajouter un événement "click" au bouton.
+
+        * Lorsque le bouton est cliqué :
+            * récupérer tous les boutons de filtres.
+            * retirer la classe "active" de tous les boutons.
+            * ajouter la classe "active" au bouton "Tous".
+            * appeler "afficherTravaux".
+            * donner "dataTravaux" à la fonction.
+
+    * La galerie affiche alors tous les travaux.
 ]
 
 [5. CRÉER LES BOUTONS DES CATÉGORIES
     Objectif :
-    Créer automatiquement un bouton pour chaque catégorie.
-
+    Créer automatiquement un bouton pour chaque catégorie récupérée depuis l'API.
+    
     Algorithme :
-
     * Parcourir le tableau "categories".
     * Pour chaque catégorie :
+        * créer un bouton.
+        * donner au bouton le type "button".
+        * donner au bouton le nom de la catégorie.
+        * ajouter le bouton à la section des filtres.
+        * ajouter un événement "click" au bouton.
 
-    * créer un bouton.
-    * donner au bouton le type "button".
-    * donner au bouton le nom de la catégorie.
-    * ajouter le bouton à la section des filtres.
-    * ajouter un événement "click" au bouton : 
-        Fonction "travauxFiltres" qui compare :
-        *ID de la catégorie du travail (datatravaux.category.id)
-            =
-        ID de la catégorie sélectionnée (categorie.id)
-    * rappeler afficherTravaux avec (travauxFiltres)
+        * Lorsque le bouton d'une catégorie est cliqué :
+            * récupérer tous les boutons de filtres.
+            * retirer la classe "active" de tous les boutons.
+            * ajouter la classe "active" au bouton sélectionné.
+            * filtrer "dataTravaux".
+            * comparer l'id de la catégorie du travail avec l'id de la catégorie sélectionnée.
+            * conserver uniquement les travaux dont les deux id correspondent.
+            * stocker le résultat dans "travauxFiltres".
+            * appeler "afficherTravaux" avec "travauxFiltres".
 ]
 
 [6. AFFICHER TOUS LES TRAVAUX
@@ -92,7 +102,6 @@ Ce fichier contient les algorithmes et le raisonnement utilisés pour construire
     Afficher tous les travaux lorsque la page est chargée ou lorsque l'utilisateur clique sur "Tous".
 
     Algorithme :
-
     * Utiliser le tableau complet "dataTravaux".
     * Appeler la fonction "afficherTravaux".
     * Donner "dataTravaux" à la fonction.
@@ -104,31 +113,30 @@ Ce fichier contient les algorithmes et le raisonnement utilisés pour construire
     Afficher uniquement les travaux appartenant à la catégorie sélectionnée.
 
     Algorithme :
-
     * L'utilisateur clique sur un bouton de catégorie.
-    * Récupérer l'id de la catégorie sélectionnée.
-    * Créer un tableau vide pour les travaux filtrés.
-    * Parcourir "dataTravaux".
+    * Récupérer l'id de la catégorie sélectionnée grâce à "categorie.id".
+    * Utiliser la méthode ".filter()" sur "dataTravaux".
     * Pour chaque travail :
-
-        * récupérer l'id de sa catégorie.
+        * récupérer l'id de sa catégorie avec "travail.category.id".
         * comparer cet id avec l'id de la catégorie sélectionnée.
         * si les deux id correspondent :
-        * ajouter le travail au tableau des travaux filtrés.
+            * conserver le travail dans le nouveau tableau.
 
+    * La méthode ".filter()" retourne un nouveau tableau appelé "travauxFiltres".
     * Appeler la fonction "afficherTravaux".
-    * Donner les travaux filtrés à la fonction.
+    * Donner "travauxFiltres" à la fonction.
     * La galerie affiche uniquement les travaux de la catégorie sélectionnée.
 ]
 
 [8. GESTION DU CLIC SUR "TOUS"
     Objectif :
     Revenir à l'affichage de tous les travaux.
-
+    
     Algorithme :
-
     * L'utilisateur clique sur le bouton "Tous".
     * Récupérer la liste complète "dataTravaux".
+    * Retirer la classe "active" des autres boutons.
+    * Ajouter la classe "active" au bouton "Tous".
     * Appeler "afficherTravaux".
     * Donner "dataTravaux" à la fonction.
     * La galerie affiche à nouveau tous les travaux.
@@ -137,20 +145,23 @@ Ce fichier contient les algorithmes et le raisonnement utilisés pour construire
 [9. ORGANISATION GÉNÉRALE DU PROGRAMME
     Ordre général :
 
-    * Récupérer les travaux depuis l'API.
+    * Récupérer les travaux depuis l'API "/works".
     * Stocker les travaux dans "dataTravaux".
-    * Récupérer les catégories uniques.
-    * Créer le bouton "Tous".
-    * Créer les boutons des catégories.
-    * Ajouter les événements "click" aux boutons.
     * Créer la fonction "afficherTravaux".
     * Afficher tous les travaux au chargement.
+    * Récupérer les catégories depuis l'API "/categories".
+      * Stocker les catégories dans "categories".
+      * Créer le bouton "Tous".
+      * Créer les boutons des catégories.
+      * Ajouter les événements "click" aux boutons.
     * Lorsqu'une catégorie est sélectionnée :
-
-    * filtrer les travaux.
-    * afficher uniquement les travaux correspondants.
+      * retirer la classe "active" des autres boutons.
+      * ajouter la classe "active" au bouton sélectionné.
+      * filtrer les travaux.
+      * afficher uniquement les travaux correspondants.
     * Lorsque "Tous" est sélectionné :
-
+        * retirer la classe "active" des autres boutons.
+        * ajouter la classe "active" au bouton "Tous".
         * afficher à nouveau tous les travaux.
 ]
 
@@ -163,30 +174,38 @@ Ce fichier contient les algorithmes et le raisonnement utilisés pour construire
 
     Exemples :
 
-    ```
     afficherTravaux(dataTravaux)
-      → affiche tous les travaux.
+    → affiche tous les travaux.
 
     afficherTravaux(travauxFiltres)
-     → affiche uniquement les travaux filtrés.
-    ```
+    → affiche uniquement les travaux filtrés.
 
     Le bouton ne crée donc pas lui-même la galerie.
     Il indique simplement quels travaux doivent être affichés.
+
+    La méthode ".filter()" permet de créer un nouveau tableau
+    contenant uniquement les travaux qui correspondent à la catégorie sélectionnée.
 ]
 
 [11. RÉSUMÉ DU FONCTIONNEMENT
-    API
+    API "/works"
     ↓
     dataTravaux
     ↓
-    récupération des catégories
+    afficherTravaux()
+    ↓
+    galerie
+
+    ```
+    API "/categories"
     ↓
     categories
     ↓
     création des boutons
     ↓
     événement "click"
+    ↓
+    comparaison des id de catégories
     ↓
     filtrage éventuel des travaux
     ↓
@@ -196,88 +215,94 @@ Ce fichier contient les algorithmes et le raisonnement utilisés pour construire
 ]
 
 [12. VOCABULAIRE IMPORTANT
-    dataTravaux :
-    Tableau contenant tous les travaux récupérés depuis l'API.
+dataTravaux :
+Tableau contenant tous les travaux récupérés depuis l'API "/works".
 
-    categories :
-    Tableau contenant les catégories uniques.
+categories :
+Tableau contenant les catégories récupérées depuis l'API "/categories".
 
-    travail :
-    Un élément du tableau "dataTravaux".
+travail :
+Un élément du tableau "dataTravaux".
 
-    categorie :
-    Un élément du tableau "categories".
+categorie :
+Un élément du tableau "categories".
 
-    category.id :
-    Identifiant de la catégorie d'un travail.
+category.id :
+Identifiant de la catégorie d'un travail.
 
-    category.name :
-    Nom de la catégorie d'un travail.
+category.name :
+Nom de la catégorie d'un travail.
 
-    forEach :
-    Permet de parcourir chaque élément d'un tableau.
+forEach :
+Permet de parcourir chaque élément d'un tableau.
 
-    push :
-    Permet d'ajouter un élément à un tableau.
+filter :
+Permet de créer un nouveau tableau contenant uniquement les éléments
+qui respectent une condition.
 
-    some :
-    Permet de vérifier si au moins un élément d'un tableau respecte une condition.
+addEventListener :
+Permet de réagir à un événement, par exemple un clic.
 
-    addEventListener :
-    Permet de réagir à un événement, par exemple un clic.
+classList.add :
+Permet d'ajouter une classe CSS à un élément.
 
-    fonction :
-    Bloc de code réutilisable auquel on peut transmettre des données.
+classList.remove :
+Permet de retirer une classe CSS d'un élément.
 
-    Paramètre et arguments :
-    
-        Paramètre :
+fonction :
+Bloc de code réutilisable auquel on peut transmettre des données.
 
-        * Variable définie lors de la création d'une fonction.
-        * Il représente une valeur que la fonction attend de recevoir.
+Paramètre et arguments :
 
-        Exemple :
+    Paramètre :
 
-        ```
-        function afficherTravaux(travaux) {
-        }
-        ```
+    * Variable définie lors de la création d'une fonction.
+    * Il représente une valeur que la fonction attend de recevoir.
 
-        Ici, "travaux" est le paramètre.
+    Exemple :
 
-        Argument :
+    ```
+    function afficherTravaux(travaux) {
+    }
+    ```
 
-        * Valeur donnée à une fonction lorsqu'on l'appelle.
-        * Cette valeur est reçue par le paramètre.
+    Ici, "travaux" est le paramètre.
 
-        Exemple :
+    Argument :
 
-        ```
-        afficherTravaux(dataTravaux);
-        ```
+    * Valeur donnée à une fonction lorsqu'on l'appelle.
+    * Cette valeur est reçue par le paramètre.
 
-        Ici, "dataTravaux" est l'argument.
+    Exemple :
 
-        À retenir :
+    ```
+    afficherTravaux(dataTravaux);
+    ```
 
-        ```
-        function afficherTravaux(travaux)
-                                    ↑
-                                paramètre
+    Ici, "dataTravaux" est l'argument.
 
-        afficherTravaux(dataTravaux)
-                             ↑
-                            argument
-        ```
+    À retenir :
 
-        Le paramètre est la "place réservée".
-        L'argument est la valeur qu'on met dans cette place.
+    ```
+    function afficherTravaux(travaux)
+                                ↑
+                            paramètre
 
-        Ainsi :
+    afficherTravaux(dataTravaux)
+                         ↑
+                        argument
+    ```
 
-        ```
-        travaux = dataTravaux
-        ```
+    Le paramètre est la "place réservée".
+    L'argument est la valeur qu'on met dans cette place.
 
-        à l'intérieur de la fonction.
+    Ainsi :
+
+    ```
+    travaux = dataTravaux
+    ```
+
+    à l'intérieur de la fonction.
+````
+
 ]
