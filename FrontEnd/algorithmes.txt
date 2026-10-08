@@ -1,0 +1,225 @@
+ALGORITHMES - ETAPES 1 -> Galerie de travaux + tri par catégories
+=================================
+
+Ce fichier contient les algorithmes et le raisonnement utilisés pour construire les fonctionnalités du projet.
+
+[1. RÉCUPÉRER LES TRAVAUX DEPUIS L'API
+    Objectif :
+    Récupérer les travaux présents dans l'API afin de pouvoir les afficher sur le site.
+    Algorithme :
+    * Déclarer une variable globale "dataTravaux".
+    * Faire une requête GET vers l'API "/works".
+    * Attendre la réponse de l'API.
+    * Transformer la réponse en données JavaScript.
+    * Stocker les données reçues dans "dataTravaux".
+]
+
+[2. AFFICHER LES TRAVAUX DANS LA GALERIE
+    Objectif :
+    Afficher tous les travaux récupérés depuis l'API dans la galerie.
+
+    Algorithme :
+    * Créer une fonction "afficherTravaux" qui reçoit une liste de travaux.
+    * Récupérer la galerie dans le HTML.
+    * Vider la galerie.
+    * Parcourir la liste des travaux reçue.
+    * Pour chaque travail :
+
+        * créer une figure.
+        * créer une image.
+        * donner à l'image l'URL du travail.
+        * créer une légende.
+        * donner à la légende le titre du travail.
+        * ajouter l'image à la figure.
+        * ajouter la légende à la figure.
+        * ajouter la figure à la galerie.
+]
+
+[3. RÉCUPÉRER LES CATÉGORIES
+    Objectif :
+    Créer un tableau contenant uniquement les catégories différentes présentes dans les travaux.
+    Algorithme :
+
+    * Créer un tableau vide appelé "categories".
+    * Parcourir "dataTravaux".
+    * Pour chaque travail :
+
+        * récupérer sa catégorie.
+        * vérifier si une catégorie ayant le même id existe déjà dans "categories".
+        * si la catégorie n'existe pas :
+
+    * ajouter la catégorie dans "categories".
+    * À la fin, le tableau "categories" contient chaque catégorie une seule fois.
+]
+
+[4. CRÉER LE BOUTON "TOUS"
+    Objectif :
+    Créer un bouton permettant d'afficher tous les travaux.
+    Algorithme :
+
+    * Récupérer la section des filtres dans le HTML.
+    * Créer un bouton.
+    * Donner au bouton le type "button".
+    * Donner au bouton le texte "Tous".
+    * Ajouter le bouton à la section des filtres.
+    * Ajouter un événement "click" au bouton.
+]
+
+[5. CRÉER LES BOUTONS DES CATÉGORIES
+    Objectif :
+    Créer automatiquement un bouton pour chaque catégorie.
+
+    Algorithme :
+
+    * Parcourir le tableau "categories".
+    * Pour chaque catégorie :
+
+    * créer un bouton.
+    * donner au bouton le type "button".
+    * donner au bouton le nom de la catégorie.
+    * ajouter le bouton à la section des filtres.
+    * ajouter un événement "click" au bouton.
+]
+
+[6. AFFICHER TOUS LES TRAVAUX
+    Objectif :
+    Afficher tous les travaux lorsque la page est chargée ou lorsque l'utilisateur clique sur "Tous".
+
+    Algorithme :
+
+    * Utiliser le tableau complet "dataTravaux".
+    * Appeler la fonction "afficherTravaux".
+    * Donner "dataTravaux" à la fonction.
+    * La fonction affiche tous les travaux dans la galerie.
+]
+
+[7. FILTRER LES TRAVAUX PAR CATÉGORIE
+    Objectif :
+    Afficher uniquement les travaux appartenant à la catégorie sélectionnée.
+
+    Algorithme :
+
+    * L'utilisateur clique sur un bouton de catégorie.
+    * Récupérer l'id de la catégorie sélectionnée.
+    * Créer un tableau vide pour les travaux filtrés.
+    * Parcourir "dataTravaux".
+    * Pour chaque travail :
+
+        * récupérer l'id de sa catégorie.
+        * comparer cet id avec l'id de la catégorie sélectionnée.
+        * si les deux id correspondent :
+        * ajouter le travail au tableau des travaux filtrés.
+
+    * Appeler la fonction "afficherTravaux".
+    * Donner les travaux filtrés à la fonction.
+    * La galerie affiche uniquement les travaux de la catégorie sélectionnée.
+]
+
+[8. GESTION DU CLIC SUR "TOUS"
+    Objectif :
+    Revenir à l'affichage de tous les travaux.
+
+    Algorithme :
+
+    * L'utilisateur clique sur le bouton "Tous".
+    * Récupérer la liste complète "dataTravaux".
+    * Appeler "afficherTravaux".
+    * Donner "dataTravaux" à la fonction.
+    * La galerie affiche à nouveau tous les travaux.
+]
+
+[9. ORGANISATION GÉNÉRALE DU PROGRAMME
+    Ordre général :
+
+    * Récupérer les travaux depuis l'API.
+    * Stocker les travaux dans "dataTravaux".
+    * Récupérer les catégories uniques.
+    * Créer le bouton "Tous".
+    * Créer les boutons des catégories.
+    * Ajouter les événements "click" aux boutons.
+    * Créer la fonction "afficherTravaux".
+    * Afficher tous les travaux au chargement.
+    * Lorsqu'une catégorie est sélectionnée :
+
+    * filtrer les travaux.
+    * afficher uniquement les travaux correspondants.
+    * Lorsque "Tous" est sélectionné :
+
+        * afficher à nouveau tous les travaux.
+]
+
+[10. LOGIQUE GÉNÉRALE DU FILTRAGE
+
+    La galerie ne doit pas être créée une fois pour chaque bouton.
+
+    Une seule fonction "afficherTravaux" est utilisée pour afficher
+    n'importe quelle liste de travaux.
+
+    Exemples :
+
+    ```
+    afficherTravaux(dataTravaux)
+      → affiche tous les travaux.
+
+    afficherTravaux(travauxFiltres)
+     → affiche uniquement les travaux filtrés.
+    ```
+
+    Le bouton ne crée donc pas lui-même la galerie.
+    Il indique simplement quels travaux doivent être affichés.
+]
+
+[11. RÉSUMÉ DU FONCTIONNEMENT
+    API
+    ↓
+    dataTravaux
+    ↓
+    récupération des catégories
+    ↓
+    categories
+    ↓
+    création des boutons
+    ↓
+    événement "click"
+    ↓
+    filtrage éventuel des travaux
+    ↓
+    afficherTravaux()
+    ↓
+    galerie
+]
+
+[12. VOCABULAIRE IMPORTANT
+    dataTravaux :
+    Tableau contenant tous les travaux récupérés depuis l'API.
+
+    categories :
+    Tableau contenant les catégories uniques.
+
+    travail :
+    Un élément du tableau "dataTravaux".
+
+    categorie :
+    Un élément du tableau "categories".
+
+    category.id :
+    Identifiant de la catégorie d'un travail.
+
+    category.name :
+    Nom de la catégorie d'un travail.
+
+    forEach :
+    Permet de parcourir chaque élément d'un tableau.
+
+    push :
+    Permet d'ajouter un élément à un tableau.
+
+    some :
+    Permet de vérifier si au moins un élément d'un tableau respecte une condition.
+
+    addEventListener :
+    Permet de réagir à un événement, par exemple un clic.
+
+    fonction :
+    Bloc de code réutilisable auquel on peut transmettre des données.
+]
