@@ -61,7 +61,16 @@ main {
     flex: 1;
 }
 
-header {
+.bandeau-edition {
+	display: none;
+	background-color: #000;
+	color: white;
+	font-family: 'Work Sans';
+	text-align: center;
+	padding: 20px 20px;
+}
+
+.header-principal {
 	display: flex;
 	justify-content: space-between;
 	margin: 50px 0
