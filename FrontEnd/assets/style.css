@@ -68,6 +68,13 @@ main {
 	font-family: 'Work Sans';
 	text-align: center;
 	padding: 20px 20px;
+
+    /* Pour occuper toute la largeur de l'écran */
+    width: 100vw;
+    box-sizing: border-box;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .header-principal {
@@ -131,9 +138,10 @@ nav a.active{
 #introduction {
 	display: flex;
 	align-items: center;
+	margin-bottom: 8em;
 }
 #introduction figure {
-	flex: 1
+	flex: 1;
 }
 #introduction img {
 	display: block;
@@ -151,9 +159,19 @@ nav a.active{
 #introduction p {
 	margin-bottom: 0.5em;
 }
-#portfolio h2 {
-	text-align: center;
-	margin-bottom: 1em;
+
+.portfolio-title{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+    align-items: center;
+    gap: 30px;
+	margin-bottom: 2em;
+}
+
+.portfolio-title a{
+	text-decoration: none;
+	color: #000;
 }
 
 /* Boutons filtres */
@@ -161,7 +179,7 @@ nav a.active{
 	display: flex;
 	justify-content: center;
 	gap: 9px;
-	margin-bottom: 30px;
+	margin-bottom: 4em;
 }
 
 .filters button{
