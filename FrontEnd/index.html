@@ -10,8 +10,9 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script src="gallery.js" defer></script>
-	<script src="./index-logged-in.js" defer></script>
+	<script type="module" src="gallery.js" defer></script>
+	<script src="index-logged-in.js" defer></script>
+	<script type="module" src="modal.js" defer></script>
 </head>
 <body>
 <header>
@@ -57,11 +58,11 @@
 		</div>
 
 		<div class="filters">
-			<!--Affichage dynamique des boutons filtre par script.js-->
+			<!--Affichage dynamique des boutons filtre par gallery.js-->
 		</div>
 
-		<div class="gallery">
-			<!--Affichage dynamique de la gallerie par script.js-->
+		<div class="gallery-portfolio">
+			<!--Affichage dynamique de la gallerie par gallery.js-->
 		</div>
 
 	</section>
@@ -81,6 +82,25 @@
 	</section>
 </main>
 
+<aside id="js-global-modal" class="background-modal" aria-hidden="true">
+	
+	<section id="js-modal"> 
+		<div id="gallery-modal">
+			<h3>Galerie photo</h3>
+			<div id="container-gallery-modal">
+				<!--Affichage dynamique de la gallerie par modal.js-->
+			</div>
+			<hr>
+			<input type="submit" value="Envoyer">
+		</div>
+
+		<div id="add-picture-modal">
+			<!--Affichage dynamique de la gallerie par modal.js-->
+		</div>
+	</section>
+
+</aside>
+
 <footer>
 	<nav>
 		<ul>
@@ -88,5 +108,6 @@
 		</ul>
 	</nav>
 </footer>
+
 </body>
 </html>
