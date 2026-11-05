@@ -54,7 +54,7 @@
 	<section id="portfolio">
 		<div class="portfolio-title">
 			<h2>Mes Projets</h2>
-			<a href="#" id="modify"><p><i class="fa-regular fa-pen-to-square"></i> Modifier</p></a>
+			<a href="#" id="modify"><p><i class="fa-regular fa-pen-to-square" aria-label="Ouvrir la modale d'édition de la galerie"></i> Modifier</p></a>
 		</div>
 
 		<div class="filters">
@@ -82,20 +82,48 @@
 	</section>
 </main>
 
-<aside id="js-global-modal" class="background-modal" aria-hidden="true">
+<aside id="js-global-modal" class="background-modal" aria-hidden="true" style="display: none;">
 	
 	<section id="js-modal"> 
-		<div id="gallery-modal">
+
+		<!-- Bouton pour fermer de la modale -->
+    	<button id="close-modal" class="close-modal" aria-label="Fermer la fenêtre">
+        	<i class="fa-solid fa-xmark"></i>
+    	</button>
+		<!-- Bouton pour retour de la modale -->
+		<button id="return-modal" class="return-modal" aria-label="Revenir à la galerie" style="display: none;">
+        	<i class="fa-solid fa-arrow-left"></i>
+    	</button>
+
+		<div id="gallery-modal" style="display: none;">
 			<h3>Galerie photo</h3>
 			<div id="container-gallery-modal">
-				<!--Affichage dynamique de la gallerie par modal.js-->
+				<!--Affichage dynamique de la galerie par modal.js-->
 			</div>
 			<hr>
-			<input type="submit" value="Envoyer">
+			<button type="button" id="go-add-picture-modal">Ajouter une photo</button>
 		</div>
 
 		<div id="add-picture-modal">
-			<!--Affichage dynamique de la gallerie par modal.js-->
+			<h3>Ajout photo</h3>
+			<div id="container-upload-img">
+				<i class="fa-regular fa-image"></i>
+				<!--Champ de sélection d'image, caché-->
+				<input type="file" id="image-upload" accept="image/jpeg, image/png" hidden>
+
+				<!-- Ce label déclenche le champ de sélection associé -->
+				<label for="image-upload" id="button-upload">+ Ajouter photo</label>
+				<p>jpg, png : 4mo max</p>
+			</div>
+
+			<label for="title">Titre</label>
+			<input type="text" name="title" id="title">
+			<label for="select-category">Catégorie</label>
+			<select id="select-category" name="select-category">
+  				<!--Affichage dynamique des categories par modal.js-->
+			</select>
+			<hr>
+			<input type="submit" value="Valider">
 		</div>
 	</section>
 

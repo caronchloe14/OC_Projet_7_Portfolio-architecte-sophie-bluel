@@ -227,8 +227,8 @@ nav a.active{
 #contact > *,
 #login > * {
 	text-align: center;
-
 }
+
 #contact h2,
 #login h2{
 	margin-bottom: 20px;
@@ -244,6 +244,7 @@ nav a.active{
 #contact input,
 #login input {
 	height: 50px;
+	padding: 10px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
@@ -307,22 +308,52 @@ input:hover{
 
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 	align-items: center;
+	position: relative; /*defini la modale comme repère*/
 }
 
+/*Bouton "fermer" / "retour"*/
+.close-modal {
+    position: absolute; /*se positionne par rapport au repère*/
+    top: 25px;
+    right: 25px;
 
-/* Contenu de la première vue de la modale */
-#gallery-modal {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.return-modal{
+	position: absolute; /*se positionne par rapport au repère*/
+    top: 25px;
+    left: 25px;
+
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Contenu de la modale */
+#gallery-modal,
+#add-picture-modal {
     width: 100%;
+    height: 100%;
     box-sizing: border-box;
-    padding: 50px;
+    padding: 60px 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-/* Titre de la galerie dans la modale */
-#gallery-modal h3 {
+/* Titre dans la modale */
+#gallery-modal h3,
+#add-picture-modal h3 {
     text-align: center;
     font-size: 24px;
-    margin-bottom: 40px;
+	padding-bottom: 40px;
 }
 
 /* Grille des photos dans la modale */
@@ -332,6 +363,8 @@ input:hover{
     grid-template-columns: repeat(5, 1fr);
     gap: 15px;
     box-sizing: border-box;
+	padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 /* Images de la modale uniquement */
@@ -342,11 +375,83 @@ input:hover{
     display: block;
 }
 
+/*Zone d'upload d'image*/
+#container-upload-img{
+	height: 30%;
+	background-color: #E8F1F6;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px;
+}
+
+#container-upload-img i {
+    font-size: 80px;
+	color: #B9C5CC;
+}
+
+/*Bouton d'upload d'image*/
+#button-upload {
+    display: inline-block;
+	text-align: center;
+	width: 180px;
+    background-color: #B9C5CC;
+    color: #306685;
+    padding: 15px 55px;
+    border-radius: 50px;
+    font-family: 'Work Sans';
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Champs Titre et Catégorie de la modale d'ajout */
+#add-picture-modal input[type="text"],
+#add-picture-modal select {
+    width: 100%;
+    height: 50px;
+    box-sizing: border-box;
+    border: none;
+    background-color: white;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    border-radius: 5px;
+    padding: 10px;
+    font-family: 'Work Sans';
+    font-size: 14px;
+}
+
+#add-picture-modal label {
+    font-family: 'Work Sans';
+    font-size: 14px;
+    font-weight: 500;
+	margin-bottom: 10px;
+}
+
 /* Séparateur */
-#gallery-modal hr {
+#gallery-modal hr,
+#add-picture-modal hr {
     border: none;
     border-top: 1px solid #B3B3B3;
     margin: 30px 0;
+}
+
+/*Bouton de validation*/
+#gallery-modal input[type="submit"],
+#add-picture-modal input[type="submit"],
+#go-add-picture-modal{
+	display: block;
+    margin: 2em auto;
+    width: 180px;
+    border: none;
+    border-radius: 60px;
+    background-color: #1D6154;
+    color: white;
+    font-family: 'Syne';
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
 }
 
 /* Fin de la modale */
