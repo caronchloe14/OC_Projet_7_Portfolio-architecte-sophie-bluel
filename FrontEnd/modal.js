@@ -1,3 +1,7 @@
+// On importe la fonction qui récupère les travaux depuis l'API.
+import { recupererTravaux } from "./api.js";
+import { supprimerTravaux } from "./modal-delete-work.js"; // Celle ci pour la fonction de suppression de travaux
+
 const modifier = document.getElementById("modify"); // Bouton "modifier"
 const globalModal = document.getElementById("js-global-modal") // Toute la modale : background + fenêtre
 const modal = document.getElementById("js-modal"); // Fenêtre blanche
@@ -7,12 +11,10 @@ const addPictureModal = document.getElementById("add-picture-modal"); // Modale 
 // 1. OUVRIR LA MODALE
 modifier.addEventListener("click", function(event) {
     globalModal.style.display="flex";
+    globalModal.setAttribute("aria-hidden", "false");
 })
 
-// 2. RÉCUPÉRER LES TRAVAUX
-
-// On importe la fonction qui récupère les travaux depuis l'API.
-import { recupererTravaux } from "./api-travaux.js";
+// 2. RÉCUPÉRER ET AFFICHER LES TRAVAUX
 
 recupererTravaux()
     .then(travaux => {
@@ -38,11 +40,28 @@ recupererTravaux()
             imageTravail.src = travail.imageUrl;
             imageTravail.alt = travail.title;
 
+            // On crée un bouton "Supprimer" sur chaque figure
+            const boutonSupprimer = document.createElement("button");
+            boutonSupprimer.type = "button";
+            boutonSupprimer.classList.add("bouton-supprimer");
+            const iconePoubelle = document.createElement("i");
+            iconePoubelle.classList.add("fa-solid", "fa-trash-can");
+            boutonSupprimer.appendChild(iconePoubelle);
+
+            // On appelle la fonction importée
+            supprimerTravaux(boutonSupprimer, travail.id);
+
+            // On verifie que le bouton correspond à son travail 
+            boutonSupprimer.addEventListener("click", function(event){
+                console.log("Bouton associé au travail :", travail.id, travail.title, boutonSupprimer);
+            })
+            
             // On ajoute la figure au conteneur de la modale.
             containerGalleryModal.appendChild(figureGalleryModal);
 
-            // On ajoute l'image à la figure.
+            // On ajoute l'image et le bouton à la figure.
             figureGalleryModal.appendChild(imageTravail);
+            figureGalleryModal.appendChild(boutonSupprimer);
         });
     })
     .catch(error => {
@@ -76,16 +95,19 @@ const closeModale = document.getElementById("close-modal")
 // Par le bouton "X"
 closeModale.addEventListener("click", function(event){
     globalModal.style.display="none";
+    globalModal.setAttribute("aria-hidden", "true");
 })
 // En cliquant en dehors de la fenêtre uniquement 
 globalModal.addEventListener("click", function(event) {
     if (!modal.contains(event.target)) {
         globalModal.style.display = "none";
+        globalModal.setAttribute("aria-hidden", "true");
     }
 });
 // En pressant la touche "Esc"
 document.addEventListener("keydown", function(event) {
     if (event.key === "Escape" || event.key === "Esc") {
         globalModal.style.display = "none";
+        globalModal.setAttribute("aria-hidden", "true");
     }
 });

@@ -6,12 +6,12 @@ RÔLE :
 Afficher les travaux dans la galerie de la page d'accueil
 et créer les boutons permettant de filtrer les travaux par catégorie.
 
-Les travaux sont récupérés grâce à la fonction
-recupererTravaux() importée depuis api-travaux.js.
+Les travaux et les catégories sont récupérés grâce aux fonctions
+importées depuis api.js.
 */
 
-// On importe la fonction qui récupère les travaux depuis l'API.
-import { recupererTravaux } from "./api-travaux.js";
+// On importe les fonctions qui récupèrent les données depuis l'API.
+import { recupererTravaux, recupererCategories } from "./api.js";
 
 
 // 1. RÉCUPÉRER LES TRAVAUX DEPUIS L'API COMMUNE
@@ -63,10 +63,9 @@ recupererTravaux()
         afficherTravaux(dataTravaux);
 
 
-        // 3. RÉCUPÉRER LES CATÉGORIES DEPUIS L'API
+        // 3. RÉCUPÉRER LES CATÉGORIES DEPUIS L'API COMMUNE
 
-        fetch("http://localhost:5678/api/categories")
-            .then(response => response.json())
+        recupererCategories()
             .then(categories => {
 
                 // On récupère la section qui contiendra les boutons de filtres.
@@ -139,10 +138,15 @@ recupererTravaux()
                         afficherTravaux(travauxFiltres);
                     });
                 });
+            })
+            .catch(error => {
+
+                // On affiche une erreur si la récupération des catégories échoue.
+                console.error("Impossible de récupérer les catégories :", error);
             });
     })
     .catch(error => {
-        // On affiche une erreur dans la console si la récupération des
-        // travaux échoue.
+
+        // On affiche une erreur si la récupération des travaux échoue.
         console.error("Impossible de récupérer les travaux :", error);
     });

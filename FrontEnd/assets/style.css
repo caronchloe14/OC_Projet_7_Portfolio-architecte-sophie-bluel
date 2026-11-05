@@ -384,6 +384,35 @@ input:hover{
     padding-bottom: 20px;
 }
 
+#container-gallery-modal figure {
+    position: relative;
+}
+
+.bouton-supprimer{
+	background-color: #000;
+	position: absolute;
+    top: 5px;
+    right: 5px;
+
+	/* Suppression du style natif */
+    appearance: none;
+    border: none;
+    background: #000;
+    padding: 0;
+
+    /* Apparence personnalisée */
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+}
+
+.fa-trash-can{
+	color: white;
+	font-size: 12px;
+}
+
 /* Images de la modale uniquement */
 #container-gallery-modal img {
     width: 100%;
