@@ -1,4 +1,7 @@
+// GESTION DE LA SUPPRESSION DES TRAVAUX DANS LA MODAL
+
 export function supprimerTravaux(boutonSupprimer, idTravail) {
+    //const boutonSupprimer = document.querySelector("button-supprimer");
     boutonSupprimer.addEventListener("click", function(event) {
         
         // On récupère le token d'authentification

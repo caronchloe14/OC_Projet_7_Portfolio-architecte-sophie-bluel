@@ -1,3 +1,5 @@
+// GESTION D'OUVERTURE / NAVIGATION / FERMETURE DE LA MODALE
+
 // On importe la fonction qui récupère les travaux depuis l'API.
 import { recupererTravaux } from "./api.js";
 import { supprimerTravaux } from "./modal-delete-work.js"; // Celle ci pour la fonction de suppression de travaux
