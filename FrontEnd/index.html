@@ -54,7 +54,7 @@
 	<section id="portfolio">
 		<div class="portfolio-title">
 			<h2>Mes Projets</h2>
-			<a href="#" id="modify"><p><i class="fa-regular fa-pen-to-square" aria-label="Ouvrir la modale d'édition de la galerie"></i> Modifier</p></a>
+			<button type="button" id="modify"><i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>Modifier</button>
 		</div>
 
 		<div class="filters">
@@ -95,7 +95,7 @@
         	<i class="fa-solid fa-arrow-left"></i>
     	</button>
 
-		<div id="gallery-modal" style="display: none;">
+		<div id="gallery-modal">
 			<h3>Galerie photo</h3>
 			<div id="container-gallery-modal">
 				<!--Affichage dynamique de la galerie par modal.js-->
@@ -104,7 +104,7 @@
 			<button type="button" id="go-add-picture-modal">Ajouter une photo</button>
 		</div>
 
-		<div id="add-picture-modal">
+		<div id="add-picture-modal" style="display: none;">
 			<h3>Ajout photo</h3>
 			<div id="container-upload-img">
 				<i class="fa-regular fa-image"></i>
