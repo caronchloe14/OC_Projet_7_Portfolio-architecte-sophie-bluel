@@ -1,14 +1,5 @@
 
-/*
-FICHIER : gallery.js
-
-RÔLE :
-Afficher les travaux dans la galerie de la page d'accueil
-et créer les boutons permettant de filtrer les travaux par catégorie.
-
-Les travaux et les catégories sont récupérés grâce aux fonctions
-importées depuis api.js.
-*/
+// AFFICHER LES TRAVAUX DANS LA PAGE PRINCIPALE
 
 // On importe les fonctions qui récupèrent les données depuis l'API.
 import { recupererTravaux, recupererCategories } from "./api.js";

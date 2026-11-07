@@ -13,6 +13,8 @@
 	<script type="module" src="gallery.js" defer></script>
 	<script src="index-logged-in.js" defer></script>
 	<script type="module" src="modal.js" defer></script>
+	<script type="module" src="modal-add-work.js" defer></script>
+	<script type="module" src="modal-delete-work.js" defer></script>
 </head>
 <body>
 <header>
@@ -105,26 +107,30 @@
 		</div>
 
 		<div id="add-picture-modal">
-			<h3>Ajout photo</h3>
-			<div id="container-upload-img">
-				<i class="fa-regular fa-image"></i>
-				<!--Champ de sélection d'image, caché-->
-				<input type="file" id="image-upload" accept="image/jpeg, image/png" hidden>
+    		<h3>Ajout photo</h3>
 
-				<!-- Ce label déclenche le champ de sélection associé -->
-				<label for="image-upload" id="button-upload">+ Ajouter photo</label>
-				<p>jpg, png : 4mo max</p>
-			</div>
+    		<form id="form-add-work">
 
-			<label for="title">Titre</label>
-			<input type="text" name="title" id="title">
-			<label for="select-category">Catégorie</label>
-			<select id="select-category" name="select-category">
-  				<!--Affichage dynamique des categories par modal.js-->
-			</select>
-			<hr>
-			<input id="ajouter-photo" type="submit" value="Valider">
-		</div>
+        		<div id="container-upload-img">
+          		  <i class="fa-regular fa-image"></i>
+          		  <input type="file" id="image-upload" accept="image/jpeg, image/png" hidden>
+            		<label for="image-upload" id="button-upload">+ Ajouter photo</label>
+            		<p>jpg, png : 4mo max</p>
+        		</div>
+
+        		<label for="title">Titre</label>
+        		<input type="text" name="title" id="title">
+
+        		<label for="select-category">Catégorie</label>
+        		<select id="select-category" name="select-category">
+					<!--Affichage dynmiques des catégories par modal-add-work.js-->
+        		</select>
+
+        <hr>
+        <input id="valider-ajout-photo" type="submit" value="Valider">
+
+    </form>
+</div>
 	</section>
 
 </aside>

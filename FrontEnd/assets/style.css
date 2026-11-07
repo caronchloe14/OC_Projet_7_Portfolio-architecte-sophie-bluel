@@ -454,6 +454,15 @@ input:hover{
     display: block;
 }
 
+/*Formulaire d'upload d'image*/
+#form-add-work {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 /*Zone d'upload d'image*/
 #container-upload-img{
 	height: 30%;

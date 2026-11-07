@@ -102,6 +102,9 @@ function fermerModal() {
     // On masque la flèche retour.
     returnGalleryModal.style.display = "none";
 
+    // On rend le focus au bouton qui ouvre la modale (liseuse).
+    modifier.focus();
+
     // On ferme la modale.
     globalModal.style.display = "none";
     globalModal.setAttribute("aria-hidden", "true");
