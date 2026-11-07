@@ -328,6 +328,8 @@ input:hover{
 	justify-content: center;
 	align-items: center;
 	position: relative; /*defini la modale comme repère*/
+
+	overflow: hidden; /*transition*/
 }
 
 /*Bouton "fermer" / "retour"*/
@@ -353,6 +355,11 @@ input:hover{
     cursor: pointer;
 }
 
+.close-modal,
+.return-modal {
+    z-index: 2; /*transition*/
+}
+
 /* Contenu de la modale */
 #gallery-modal,
 #add-picture-modal {
@@ -363,6 +370,32 @@ input:hover{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+	/*transition*/
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition: transform 0.4s ease; 
+}
+
+/*TRANSITION DES MODALES*/
+/* Position initiale : galerie visible */
+#gallery-modal {
+    transform: translateX(0);
+}
+
+/* Formulaire placé à droite, hors de la fenêtre */
+#add-picture-modal {
+    transform: translateX(100%);
+}
+
+/* Quand on passe à la vue ajout de photo */
+#js-modal.vue-ajout #gallery-modal {
+    transform: translateX(-100%);
+}
+
+#js-modal.vue-ajout #add-picture-modal {
+    transform: translateX(0);
 }
 
 /* Titre dans la modale */

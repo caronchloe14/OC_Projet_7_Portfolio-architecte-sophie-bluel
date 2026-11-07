@@ -79,37 +79,52 @@ const returnGalleryModal = document.getElementById("return-modal") // Flèche de
 
 // Accéder à la modale d'ajout de photo
 goAddPictureModal.addEventListener("click", function(event){
-    galleryModal.style.display="none";
-    addPictureModal.style.display="flex";
+    modal.classList.add("vue-ajout"); //cf. Transition CSS
     returnGalleryModal.style.display="block";
 });
 
 // Retouner à la galerie
 returnGalleryModal.addEventListener("click", function(event){
-    galleryModal.style.display="flex";
-    addPictureModal.style.display="none";
+    modal.classList.remove("vue-ajout"); //cf. Transition CSS
     returnGalleryModal.style.display="none";
 });
     
 // 4. FERMER LA MODALE
 
-const closeModale = document.getElementById("close-modal")
-// Par le bouton "X"
-closeModale.addEventListener("click", function(event){
-    globalModal.style.display="none";
+const closeModale = document.getElementById("close-modal");
+
+// Fonction commune de fermeture de la modale
+function fermerModal() {
+
+    // On réinitialise la vue sur la galerie.
+    modal.classList.remove("vue-ajout");
+
+    // On masque la flèche retour.
+    returnGalleryModal.style.display = "none";
+
+    // On ferme la modale.
+    globalModal.style.display = "none";
     globalModal.setAttribute("aria-hidden", "true");
-})
-// En cliquant en dehors de la fenêtre uniquement 
+}
+
+// Fermeture avec le bouton "X"
+closeModale.addEventListener("click", function() {
+    fermerModal();
+});
+
+// Fermeture en cliquant à l'extérieur de la fenêtre
 globalModal.addEventListener("click", function(event) {
-    if (!modal.contains(event.target)) {
-        globalModal.style.display = "none";
-        globalModal.setAttribute("aria-hidden", "true");
+    if (!modal.contains(event.target)) { // S'assurer d'être à l'exterieur de modal et dans globalModal
+        fermerModal();
     }
 });
-// En pressant la touche "Esc"
+
+// Fermeture avec la touche Échap
 document.addEventListener("keydown", function(event) {
-    if (event.key === "Escape" || event.key === "Esc") {
-        globalModal.style.display = "none";
-        globalModal.setAttribute("aria-hidden", "true");
+    if (
+        (event.key === "Escape" || event.key === "Esc") &&
+        globalModal.style.display !== "none"
+    ) {
+        fermerModal();
     }
 });
