@@ -3,6 +3,7 @@
 // On importe la fonction qui récupère les travaux depuis l'API.
 import { recupererTravaux } from "./api.js";
 import { supprimerTravaux } from "./modal-delete-work.js"; // Celle ci pour la fonction de suppression de travaux
+import { reinitialiserFormulaireAjout } from "./modal-add-work.js"; // Réinitialiser les champs de la modale d'ajout de travaux
 
 const modifier = document.getElementById("modify"); // Bouton "modifier"
 const globalModal = document.getElementById("js-global-modal") // Toute la modale : background + fenêtre
@@ -87,6 +88,7 @@ goAddPictureModal.addEventListener("click", function(event){
 returnGalleryModal.addEventListener("click", function(event){
     modal.classList.remove("vue-ajout"); //cf. Transition CSS
     returnGalleryModal.style.display="none";
+    reinitialiserFormulaireAjout();
 });
     
 // 4. FERMER LA MODALE
@@ -108,6 +110,8 @@ function fermerModal() {
     // On ferme la modale.
     globalModal.style.display = "none";
     globalModal.setAttribute("aria-hidden", "true");
+
+    reinitialiserFormulaireAjout();
 }
 
 // Fermeture avec le bouton "X"

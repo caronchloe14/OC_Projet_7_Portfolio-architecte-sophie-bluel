@@ -113,16 +113,18 @@
 
         		<div id="container-upload-img">
           		  <i class="fa-regular fa-image"></i>
-          		  <input type="file" id="image-upload" accept="image/jpeg, image/png" hidden>
+          		  <input type="file" id="image-upload" accept="image/jpeg, image/png" hidden required>
             		<label for="image-upload" id="button-upload">+ Ajouter photo</label>
             		<p>jpg, png : 4mo max</p>
+					<img id="image-preview" alt="Aperçu de l'image" hidden>
         		</div>
 
         		<label for="title">Titre</label>
-        		<input type="text" name="title" id="title">
+        		<input type="text" name="title" id="title" required>
 
         		<label for="select-category">Catégorie</label>
-        		<select id="select-category" name="select-category">
+        		<select id="select-category" name="select-category" required>
+					<option value="" disabled selected></option>
 					<!--Affichage dynmiques des catégories par modal-add-work.js-->
         		</select>
 

@@ -3,12 +3,15 @@
 // On importe les fonctions qui récupèrent les données depuis l'API.
 import { recupererTravaux, recupererCategories } from "./api.js";
 
-//console.log("modal-add-work.js est chargé !");
+// On récupère nos éléments
+const ajouterPhoto = document.getElementById("image-upload");
+const apercuImage = document.getElementById("image-preview");
+const containerUploadImg = document.getElementById("container-upload-img");
+const formulaireAjout = document.getElementById("form-add-work");
+
+let urlApercu = null;
 
 // 1. AJOUTER UN FICHIER DANS LE CONTAINER D'UPLOAD D'IMAGE
-
-// Récupérer le champ de sélection de fichier
-const ajouterPhoto = document.getElementById("image-upload");
 
 // Détecter la sélection d'une image
 ajouterPhoto.addEventListener("change", function(event) {
@@ -39,16 +42,28 @@ ajouterPhoto.addEventListener("change", function(event) {
         return;
     }
 
-    // Si toutes les conditions sont respectées, le fichier est valide
+    // Si toutes les conditions sont respectées, le fichier est valide et on affiche l'aperçu
     console.log("Fichier valide :", fichier);
 
-    // Affichier la prévisualisation du fichier dans le container d'upload
+    // On libère l'ancienne URL si une image avait déjà été sélectionnée.
+    if (urlApercu) {
+       URL.revokeObjectURL(urlApercu);
+    }
 
-});
+    // On crée une nouvelle URL temporaire.
+    urlApercu = URL.createObjectURL(fichier);
 
-// 2. SAISIR UN TITRE
+    // On affiche l'aperçu.
+    apercuImage.src = urlApercu;
+    apercuImage.hidden = false;
 
-// 3.ALIMENTER LE SELECTEUR DE CATEGORIES
+    // On indique qu'une image a été sélectionnée.
+    containerUploadImg.classList.add("image-selectionnee");
+    });
+
+// 3. SAISIR UN TITRE
+
+// 4.ALIMENTER LE SELECTEUR DE CATEGORIES
 const selectCategory = document.getElementById("select-category");
 
 recupererCategories()
@@ -65,9 +80,9 @@ recupererCategories()
     console.error("Impossible de récupérer les catégories :", error);
     });
 
-// 4. SELECTIONNER UNE CATEGORIE
+// 5. SELECTIONNER UNE CATEGORIE
 
-// 5. RÉCUPÉRER LE FICHIER, LE TITRE ET LA CATÉGORIE
+// 6. RÉCUPÉRER LE FICHIER, LE TITRE ET LA CATÉGORIE
 
 function recupererFichierTitreCategorie() {
 
@@ -83,8 +98,7 @@ function recupererFichierTitreCategorie() {
     };
 }
 
-// 6. RECUPERER LE FORMULAIRE ET LE SOUMETTRE
-const formulaireAjout = document.getElementById("form-add-work");
+// 7. RECUPERER LE FORMULAIRE ET LE SOUMETTRE
 
 // Écouter sa soumission
 formulaireAjout.addEventListener("submit", function(event) {
@@ -136,5 +150,23 @@ formulaireAjout.addEventListener("submit", function(event) {
 
 });
 
+// 7. RÉINITIALISER LE FORMULAIRE D'AJOUT
 
-// 6. REINITIALISER APRES VALIDATION
+export function reinitialiserFormulaireAjout() {
+
+    // On vide les champs du formulaire.
+    formulaireAjout.reset();
+
+    // On libère l'URL temporaire de l'image.
+    if (urlApercu) {
+        URL.revokeObjectURL(urlApercu);
+        urlApercu = null;
+    }
+
+    // On masque et vide l'aperçu.
+    apercuImage.removeAttribute("src");
+    apercuImage.hidden = true;
+
+    // On réinitialise le container d'upload.
+    containerUploadImg.classList.remove("image-selectionnee");
+}

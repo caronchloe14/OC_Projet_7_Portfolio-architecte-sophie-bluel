@@ -475,6 +475,33 @@ input:hover{
 	padding: 20px;
 }
 
+/* On masque l'aperçu tant qu'il est caché */
+#image-preview[hidden] {
+    display: none;
+}
+
+/* Lorsque l'image est sélectionnée */
+#container-upload-img.image-selectionnee {
+    padding: 0;
+}
+
+/* On masque l'icône, le bouton et le texte */
+#container-upload-img.image-selectionnee > i,
+#container-upload-img.image-selectionnee > label,
+#container-upload-img.image-selectionnee > p {
+    display: none;
+}
+
+/* L'image est affichée dans le container */
+#container-upload-img.image-selectionnee #image-preview {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 160px;
+    object-fit: contain;
+}
+
 #container-upload-img i {
     font-size: 80px;
 	color: #B9C5CC;
@@ -514,7 +541,6 @@ input:hover{
     font-family: 'Work Sans';
     font-size: 14px;
     font-weight: 500;
-	margin-bottom: 10px;
 }
 
 /* Séparateur */
