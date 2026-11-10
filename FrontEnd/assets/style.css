@@ -568,6 +568,21 @@ input:hover{
     cursor: pointer;
 }
 
+/* Messages de retour du formulaire */
+#message-ajout {
+    text-align: center;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+#message-ajout.message-succes {
+    color: #1D6154;
+}
+
+#message-ajout.message-erreur {
+    color: #B00020;
+}
+
 /* Fin de la modale */
 
 footer nav ul {

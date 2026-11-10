@@ -108,12 +108,13 @@
 
 		<div id="add-picture-modal">
     		<h3>Ajout photo</h3>
+			<p id="message-ajout" role="status" aria-live="polite" hidden></p> <!--Message erreur/succès-->
 
     		<form id="form-add-work">
 
         		<div id="container-upload-img">
           		  <i class="fa-regular fa-image"></i>
-          		  <input type="file" id="image-upload" accept="image/jpeg, image/png" hidden required>
+          		  <input type="file" id="image-upload" accept="image/jpeg, image/png" hidden>
             		<label for="image-upload" id="button-upload">+ Ajouter photo</label>
             		<p>jpg, png : 4mo max</p>
 					<img id="image-preview" alt="Aperçu de l'image" hidden>
