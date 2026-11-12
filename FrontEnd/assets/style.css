@@ -552,8 +552,24 @@ input:hover{
 }
 
 /*Bouton de validation*/
+#valider-ajout-photo:enabled{
+	display: block;
+    margin: 2em auto;
+    width: 180px;
+    border: none;
+    border-radius: 60px;
+	font-family: 'Syne';
+    font-size: 14px;
+    font-weight: 700;
+}
+
+#valider-ajout-photo:disabled {
+	border: none;
+    background-color: #A7A7A7;
+    cursor: not-allowed;
+}
+
 #gallery-modal input[type="submit"],
-#add-picture-modal input[type="submit"],
 #go-add-picture-modal{
 	display: block;
     margin: 2em auto;

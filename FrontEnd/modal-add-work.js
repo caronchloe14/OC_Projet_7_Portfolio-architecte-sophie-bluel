@@ -15,9 +15,13 @@ const formulaireAjout = document.getElementById("form-add-work");
 const titreTravail = document.getElementById("title");
 const selectCategory = document.getElementById("select-category");
 const messageAjout = document.getElementById("message-ajout");
+const boutonValider = document.getElementById("valider-ajout-photo");
 
 // On conserve l'URL temporaire de l'image (vide par défaut, elle se remplit à l'ajout d'image)
 let urlApercu = null;
+
+// On désactive le bouton "Valider"
+actualiserEtatBouton();
 
 
 // 2. GÉRER L'AFFICHAGE DES MESSAGES D'ERREUR ET SUCCES
@@ -35,7 +39,7 @@ function effacerMessageAjout() {
 }
 
 
-// 3. AJOUTER UN FICHIER DANS LE CONTAINER D'UPLOAD
+// 3. AJOUTER UN FICHIER VALIDE DANS LE CONTAINER D'UPLOAD
 
 // Détecter la sélection d'une image.
 ajouterPhoto.addEventListener("change", function(event) {
@@ -109,9 +113,23 @@ function recupererFichierTitreCategorie() { // On prépare (= un objet JS) et on
     };
 }
 
+// 6. ACTIVER LE BOUTON "VALIDER" POUR SOUMETTRE LE FORMULAIRE
+function actualiserEtatBouton() {
 
-// 6. SOUMETTRE LE FORMULAIRE
+    const formulaireComplet =
+        titreTravail.value.trim() !== "" && // Titre n'est pas vide et les espaces ne comptent pas
+        selectCategory.value !== "" && // Une catégorie sélectionnée
+        ajouterPhoto.files.length > 0; // Un fichier valide est uploadé
 
+    boutonValider.disabled = !formulaireComplet; // Si résultat différent de "formulaireComplet" on reste disabled
+}
+
+formulaireAjout.addEventListener("input", actualiserEtatBouton);
+formulaireAjout.addEventListener("change", actualiserEtatBouton);
+
+actualiserEtatBouton();
+
+// 7. SOUMETTRE LE FORMULAIRE S'IL EST VALIDE
 formulaireAjout.addEventListener("submit", function(event) {
 
     event.preventDefault();
@@ -121,12 +139,6 @@ formulaireAjout.addEventListener("submit", function(event) {
 
     // Récupérer les informations du formulaire dans une variable
     const informationsTravail = recupererFichierTitreCategorie();
-
-    // Vérifier qu'une image a bien été sélectionnée car ce n'est pas géré nativement au submit comme les champs titre et catégorie avec "required"
-    if (!informationsTravail.fichier) {
-        afficherMessageAjout("Veuillez sélectionner une image.", "erreur");
-        return;
-    }
 
     // Construire le FormData attendu par l'API.
     const formData = new FormData();
@@ -187,7 +199,7 @@ formulaireAjout.addEventListener("submit", function(event) {
 });
 
 
-// 7. RÉINITIALISER LE FORMULAIRE D'AJOUT
+// 8. RÉINITIALISER LE FORMULAIRE D'AJOUT
 
 export function reinitialiserFormulaireAjout() {
 
@@ -209,4 +221,7 @@ export function reinitialiserFormulaireAjout() {
 
     // Effacer les anciens messages.
     effacerMessageAjout();
+
+    // On remet le bouton "Valider" en disabled
+    actualiserEtatBouton();
 }
