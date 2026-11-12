@@ -10,6 +10,8 @@ const globalModal = document.getElementById("js-global-modal") // Toute la modal
 const modal = document.getElementById("js-modal"); // Fenêtre blanche
 const galleryModal = document.getElementById("gallery-modal"); // Modale sur "Galerie"
 const addPictureModal = document.getElementById("add-picture-modal"); // Modale sur "Ajout de photo"
+const containerGalleryModal = document.getElementById("container-gallery-modal"); // Container de la galerie
+
 
 // 1. OUVRIR LA MODALE
 modifier.addEventListener("click", function(event) {
@@ -17,63 +19,64 @@ modifier.addEventListener("click", function(event) {
     globalModal.setAttribute("aria-hidden", "false");
 })
 
-// 2. RÉCUPÉRER ET AFFICHER LES TRAVAUX
+// 2. CONSTRUCTION DE L'AFFICHAGE DES TRAVAUX DANS LA GALERIE DE MODALE
+
+export function afficherTravauxModal(travauxAafficher){
+
+    // On vide le conteneur avant d'afficher les travaux.
+    containerGalleryModal.innerHTML = "";
+
+    // Pour chaque travail récupéré depuis l'API,
+    // on crée les éléments HTML nécessaires.
+    travauxAafficher.forEach(travail => {
+
+        // On crée une figure pour contenir la photo.
+        const figureGalleryModal = document.createElement("figure");
+
+        // On crée l'image correspondant au travail.
+        const imageTravail = document.createElement("img");
+        imageTravail.src = travail.imageUrl;
+        imageTravail.alt = travail.title;
+
+        // On crée un bouton "Supprimer" sur chaque figure
+        const boutonSupprimer = document.createElement("button");
+        boutonSupprimer.type = "button";
+        boutonSupprimer.classList.add("bouton-supprimer");
+        const iconePoubelle = document.createElement("i");
+        iconePoubelle.classList.add("fa-solid", "fa-trash-can");
+        boutonSupprimer.appendChild(iconePoubelle);
+
+        // On appelle la fonction importée
+        supprimerTravaux(boutonSupprimer, travail.id);
+
+        // On verifie que le bouton correspond à son travail 
+        boutonSupprimer.addEventListener("click", function(event){
+            console.log("Bouton associé au travail :", travail.id, travail.title, boutonSupprimer);
+        })
+            
+        // On ajoute la figure au conteneur de la modale.
+        containerGalleryModal.appendChild(figureGalleryModal);
+
+        // On ajoute l'image et le bouton à la figure.
+        figureGalleryModal.appendChild(imageTravail);
+        figureGalleryModal.appendChild(boutonSupprimer);
+    });
+}
+
+// 3. AFFICHER DE LA GALERIE
 
 recupererTravaux()
     .then(travaux => {
-
-        // On récupère le conteneur de la galerie dans la modale.
-        const containerGalleryModal = document.getElementById("container-gallery-modal");
-
-        // On vide le conteneur avant d'afficher les travaux.
-        containerGalleryModal.innerHTML = "";
-
-
-        // AFFICHER LES TRAVAUX DANS LA MODALE
-
-        // Pour chaque travail récupéré depuis l'API,
-        // on crée les éléments HTML nécessaires.
-        travaux.forEach(travail => {
-
-            // On crée une figure pour contenir la photo.
-            const figureGalleryModal = document.createElement("figure");
-
-            // On crée l'image correspondant au travail.
-            const imageTravail = document.createElement("img");
-            imageTravail.src = travail.imageUrl;
-            imageTravail.alt = travail.title;
-
-            // On crée un bouton "Supprimer" sur chaque figure
-            const boutonSupprimer = document.createElement("button");
-            boutonSupprimer.type = "button";
-            boutonSupprimer.classList.add("bouton-supprimer");
-            const iconePoubelle = document.createElement("i");
-            iconePoubelle.classList.add("fa-solid", "fa-trash-can");
-            boutonSupprimer.appendChild(iconePoubelle);
-
-            // On appelle la fonction importée
-            supprimerTravaux(boutonSupprimer, travail.id);
-
-            // On verifie que le bouton correspond à son travail 
-            boutonSupprimer.addEventListener("click", function(event){
-                console.log("Bouton associé au travail :", travail.id, travail.title, boutonSupprimer);
-            })
-            
-            // On ajoute la figure au conteneur de la modale.
-            containerGalleryModal.appendChild(figureGalleryModal);
-
-            // On ajoute l'image et le bouton à la figure.
-            figureGalleryModal.appendChild(imageTravail);
-            figureGalleryModal.appendChild(boutonSupprimer);
-        });
+        // Au chargement du module, on affiche tous les travaux.
+        afficherTravauxModal(travaux);
     })
-    .catch(error => {
 
+    .catch(error => {
         // On affiche une erreur dans la console si la récupération échoue.
         console.error("Impossible d'afficher les travaux dans la modale :", error);
     });
 
-// 3. NAVIGUER DANS LA MODALE
+// 4. NAVIGUER DANS LA MODALE
 
 const goAddPictureModal = document.getElementById("go-add-picture-modal") // Bouton "Ajouter une photo"
 const returnGalleryModal = document.getElementById("return-modal") // Flèche de retour
@@ -91,7 +94,7 @@ returnGalleryModal.addEventListener("click", function(event){
     reinitialiserFormulaireAjout();
 });
     
-// 4. FERMER LA MODALE
+// 5. FERMER LA MODALE
 
 const closeModale = document.getElementById("close-modal");
 

@@ -1,15 +1,9 @@
 
-/*
-FICHIER : modal-add-work.js
-
-RÔLE :
-Gérer l'ajout d'un travail dans la modale :
-sélection de l'image, aperçu, récupération des données,
-envoi à l'API et réinitialisation du formulaire.
-*/
+// GESTION COMPLETE DE L'AJOUT DE PROJET
 
 // On importe la fonction qui récupère les catégories depuis l'API.
 import { recupererCategories } from "./api.js";
+import { mettreAJourGaleries } from "./update-galleries.js";
 
 
 // 1. RÉCUPÉRER LES ÉLÉMENTS HTML
@@ -22,11 +16,11 @@ const titreTravail = document.getElementById("title");
 const selectCategory = document.getElementById("select-category");
 const messageAjout = document.getElementById("message-ajout");
 
-// On conserve l'URL temporaire de l'image.
+// On conserve l'URL temporaire de l'image (vide par défaut, elle se remplit à l'ajout d'image)
 let urlApercu = null;
 
 
-// 2. GÉRER L'AFFICHAGE DES MESSAGES
+// 2. GÉRER L'AFFICHAGE DES MESSAGES D'ERREUR ET SUCCES
 
 function afficherMessageAjout(message, type) {
     messageAjout.textContent = message;
@@ -51,41 +45,41 @@ ajouterPhoto.addEventListener("change", function(event) {
 
     // Vérifier qu'un fichier a bien été sélectionné.
     if (!fichier) {
-        return;
+        return; // Si le résulat n'est pas ce qu'on attend : on arrête là.
     }
 
     // Vérifier que le fichier est au format JPG ou PNG.
     if (fichier.type !== "image/jpeg" && fichier.type !== "image/png") {
         alert("Le fichier doit être au format JPG ou PNG.");
         ajouterPhoto.value = "";
-        return;
+        return; // Si le résulat n'est pas ce qu'on attend : on arrête là.
     }
 
     // Vérifier que le fichier ne dépasse pas 4 Mo.
     if (fichier.size > 4 * 1024 * 1024) {
         alert("Le fichier ne doit pas dépasser 4 Mo.");
         ajouterPhoto.value = "";
-        return;
+        return; // Si le résulat n'est pas ce qu'on attend : on arrête là.
     }
 
-    // Libérer l'ancienne URL si une image avait déjà été sélectionnée.
+    // Libérer l'ancienne URL des ajout précédents
     if (urlApercu) {
         URL.revokeObjectURL(urlApercu);
     }
 
-    // Créer une nouvelle URL temporaire.
+    // Créer une nouvelle URL temporaire avec le fichier téléchargé
     urlApercu = URL.createObjectURL(fichier);
 
     // Afficher l'aperçu.
     apercuImage.src = urlApercu;
     apercuImage.hidden = false;
 
-    // Indiquer qu'une image a été sélectionnée.
+    // Indiquer qu'une image a été sélectionnée au DOM
     containerUploadImg.classList.add("image-selectionnee");
 });
 
 
-// 4. RÉCUPÉRER LES CATÉGORIES DEPUIS L'API
+// 4. RÉCUPÉRER LES CATÉGORIES DEPUIS L'API POUR LE DROPDOWN
 
 recupererCategories()
     .then(categories => {
@@ -106,12 +100,12 @@ recupererCategories()
 
 // 5. RÉCUPÉRER LE FICHIER, LE TITRE ET LA CATÉGORIE
 
-function recupererFichierTitreCategorie() {
+function recupererFichierTitreCategorie() { // On prépare (= un objet JS) et on retourne les données liées au nouveau projet
 
-    return {
-        titre: titreTravail.value.trim(),
-        categorie: selectCategory.value,
-        fichier: ajouterPhoto.files[0]
+    return { // Return envoie le resultat là où la fonction est appelée
+        titre: titreTravail.value.trim(), // On récupère la valeur saisie par l'utilisateur dans le champ HTML lié à titreTravail et on supprime les espaces inutiles avec trim
+        categorie: selectCategory.value, // On récupère l'ID de la catégorie sélectionnée
+        fichier: ajouterPhoto.files[0] // On récupère le fichier téléchargé valide
     };
 }
 
@@ -122,13 +116,13 @@ formulaireAjout.addEventListener("submit", function(event) {
 
     event.preventDefault();
 
-    // On efface un éventuel ancien message.
+    // On efface un éventuel ancien message d'un ajout précédent.
     effacerMessageAjout();
 
-    // Récupérer les informations du formulaire.
+    // Récupérer les informations du formulaire dans une variable
     const informationsTravail = recupererFichierTitreCategorie();
 
-    // Vérifier qu'une image a bien été sélectionnée.
+    // Vérifier qu'une image a bien été sélectionnée car ce n'est pas géré nativement au submit comme les champs titre et catégorie avec "required"
     if (!informationsTravail.fichier) {
         afficherMessageAjout("Veuillez sélectionner une image.", "erreur");
         return;
@@ -153,17 +147,18 @@ formulaireAjout.addEventListener("submit", function(event) {
         body: formData
     })
 
-    // Vérifier la réponse de l'API.
+    // Vérifier la réponse de l'API + retourner la réponse en JSON
     .then(response => {
 
-        if (!response.ok) {
+        if (!response.ok) { // Si != OK alors on retourne le statut de l'erreur 
             throw new Error(`Erreur HTTP : ${response.status}`);
         }
 
-        return response.json();
+        return response.json(); // Si OK -> on retourne la réponse au format JSON
     })
 
-    // Si le travail a bien été ajouté.
+    // Quand la réponse (promise) est OK, on l'exploite -> on lance l'opération dédiée
+    // Ici on indique que le travail a été ajouté, on clean le formulaire, on prévient l'utilsateur, on update les galeries...
     .then(travailAjoute => {
 
         console.log("Travail ajouté avec succès :", travailAjoute);
@@ -173,9 +168,12 @@ formulaireAjout.addEventListener("submit", function(event) {
 
         // Afficher le message de succès.
         afficherMessageAjout("Travail ajouté avec succès", "succes");
+
+        // On gère la mise à jour des galeries 
+        mettreAJourGaleries();
     })
 
-    // En cas d'erreur.
+    // Si la réponse (promise) n'est pas OK -> on gère l'erreur
     .catch(error => {
 
         console.error("Impossible d'ajouter le travail :", error);
